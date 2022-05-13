@@ -1,0 +1,6 @@
+name: SadevDodge
+version: '${version}'
+main: me.sadev.dodge.Dodge
+api-version: 1.18
+authors: [ Sadness ]
+description: Plugin de DodgeBall por Sadness
