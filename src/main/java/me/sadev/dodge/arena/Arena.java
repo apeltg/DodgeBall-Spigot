@@ -4,6 +4,7 @@ import me.sadev.dodge.Dodge;
 import me.sadev.dodge.arena.enums.GameStatus;
 import me.sadev.dodge.arena.events.ArenaChangeGameStatusEvent;
 import me.sadev.dodge.arena.events.PlayerJoinArenaEvent;
+import me.sadev.dodge.arena.events.PlayerQuitArenaEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -57,18 +58,6 @@ public class Arena {
         return gameStatus;
     }
 
-    public Arena setGameStatus(GameStatus gameStatus) {
-        // Chama o evento PlayerJoinArena
-        ArenaChangeGameStatusEvent event = new ArenaChangeGameStatusEvent(this, gameStatus, gameStatus());
-        Bukkit.getPluginManager().callEvent(event);
-
-        // Verifica se o evento foi cancelado para teleportar o player
-        if (event.isCancelled()) return this;
-
-        this.gameStatus = gameStatus;
-        return this;
-    }
-
     public Location getTeamLocation(ArenaPlayer player) {
         switch (player.time()) {
             case RED -> {
@@ -81,22 +70,43 @@ public class Arena {
         return null; // TODO - Retornar o Spawn
     }
 
-    public void teleport(ArenaPlayer player) {
+    public Arena teleport(ArenaPlayer player) {
         // Chama o evento PlayerJoinArena
         PlayerJoinArenaEvent event = new PlayerJoinArenaEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
 
         // Verifica se o evento foi cancelado para teleportar o player
-        if (event.isCancelled()) return;
+        if (event.isCancelled()) return this;
 
         // Finalmente teleporta o jogador
         player.setArena(this);
         players.add(player);
         player.player().teleport(getTeamLocation(player));
+
+        return this;
     }
 
-    public void remove(ArenaPlayer player) {
+    public Arena setGameStatus(GameStatus gameStatus) {
+        // Chama o evento PlayerJoinArena
+        ArenaChangeGameStatusEvent event = new ArenaChangeGameStatusEvent(this, gameStatus, gameStatus());
+        Bukkit.getPluginManager().callEvent(event);
+
+        // Verifica se o evento foi cancelado para teleportar o player
+        if (event.isCancelled()) return this;
+
+        this.gameStatus = gameStatus;
+        return this;
+    }
+
+    public Arena remove(ArenaPlayer player) {
+        PlayerQuitArenaEvent event = new PlayerQuitArenaEvent(player, this);
+        Bukkit.getPluginManager().callEvent(event);
+
+        // Verifica se o evento foi cancelado para teleportar o player
+        if (event.isCancelled()) return this;
+
         players.remove(player);
         // TODO - Teleportar para o Spawn
+        return this;
     }
 }
