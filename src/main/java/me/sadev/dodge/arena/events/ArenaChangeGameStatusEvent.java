@@ -2,17 +2,18 @@ package me.sadev.dodge.arena.events;
 
 import me.sadev.dodge.arena.Arena;
 import me.sadev.dodge.arena.ArenaPlayer;
+import me.sadev.dodge.arena.enums.GameStatus;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerJoinArenaEvent extends Event implements Cancellable {
+public class ArenaChangeGameStatusEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean isCancelled;
 
-    public PlayerJoinArenaEvent(ArenaPlayer player, Arena arena) {
+    public ArenaChangeGameStatusEvent(Arena arena, GameStatus newGameStatus, GameStatus oldGameStatus) {
         this.isCancelled = false;
     }
 

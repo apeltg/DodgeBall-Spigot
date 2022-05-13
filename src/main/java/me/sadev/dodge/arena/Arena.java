@@ -2,6 +2,7 @@ package me.sadev.dodge.arena;
 
 import me.sadev.dodge.Dodge;
 import me.sadev.dodge.arena.enums.GameStatus;
+import me.sadev.dodge.arena.events.ArenaChangeGameStatusEvent;
 import me.sadev.dodge.arena.events.PlayerJoinArenaEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -57,6 +58,13 @@ public class Arena {
     }
 
     public Arena setGameStatus(GameStatus gameStatus) {
+        // Chama o evento PlayerJoinArena
+        ArenaChangeGameStatusEvent event = new ArenaChangeGameStatusEvent(this, gameStatus, gameStatus());
+        Bukkit.getPluginManager().callEvent(event);
+
+        // Verifica se o evento foi cancelado para teleportar o player
+        if (event.isCancelled()) return this;
+
         this.gameStatus = gameStatus;
         return this;
     }
@@ -75,13 +83,14 @@ public class Arena {
 
     public void teleport(ArenaPlayer player) {
         // Chama o evento PlayerJoinArena
-        PlayerJoinArenaEvent event = new PlayerJoinArenaEvent(player);
+        PlayerJoinArenaEvent event = new PlayerJoinArenaEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);
 
         // Verifica se o evento foi cancelado para teleportar o player
         if (event.isCancelled()) return;
 
         // Finalmente teleporta o jogador
+        player.setArena(this);
         players.add(player);
         player.player().teleport(getTeamLocation(player));
     }
