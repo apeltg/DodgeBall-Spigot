@@ -26,8 +26,8 @@ public class UserAccountController {
 
     public boolean containsUser(UUID uuid) {
         if (!containsUserCache(uuid)) {
-            //try { return Dodge.getInstance().getUserAccountRepository().loadUserAccount(uuid).whenCompleteAsync((aBoolean, throwable) -> {}).get();
-            //} catch (InterruptedException | ExecutionException e) { Dodge.getInstance().getLog().error(e); }
+            try { return Dodge.getInstance().getUserAccountRepository().loadUserAccount(uuid).whenCompleteAsync((aBoolean, throwable) -> {}).get();
+            } catch (InterruptedException | ExecutionException e) { Dodge.getInstance().getLog().error(e); }
         }
         return true;
     }

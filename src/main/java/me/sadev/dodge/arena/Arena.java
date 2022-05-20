@@ -87,7 +87,7 @@ public class Arena {
         // Finalmente teleporta o jogador
         player.setArena(this);
         players.add(player);
-        player.player().teleport(getTeamLocation(player));
+        player.getPlayer().teleport(getTeamLocation(player));
 
         return this;
     }

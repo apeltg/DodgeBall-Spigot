@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Status {
+public class UserStatus {
 
     private double wins;
     private double loses;

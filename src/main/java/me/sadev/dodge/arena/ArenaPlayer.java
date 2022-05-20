@@ -1,25 +1,28 @@
 package me.sadev.dodge.arena;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.sadev.dodge.arena.enums.Team;
+import me.sadev.dodge.database.models.UserAccount;
 import org.bukkit.entity.Player;
 
 public class ArenaPlayer {
 
+    @Getter
     private final Player player;
+    @Getter
+    private final UserAccount userAccount;
 
     private Arena arena;
     private Status status;
 
     private Team time = Team.NENHUM;
 
-    public ArenaPlayer(Arena arena, Player player) {
+    public ArenaPlayer(UserAccount userAccount, Arena arena, Player player) {
+        this.userAccount = userAccount;
         this.arena = arena;
-        this.status = new Status(player);
+        this.status = new Status(this);
         this.player = player;
-    }
-
-    public Player player() {
-        return player;
     }
 
     public Arena arena() {

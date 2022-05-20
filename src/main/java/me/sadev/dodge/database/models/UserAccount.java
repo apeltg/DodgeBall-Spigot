@@ -12,8 +12,9 @@ public class UserAccount {
 
     private UUID uuid;
     private int userID;
-    private Timestamp createAt;
-    private Status status;
+    private Timestamp createdAt;
+    private UserStatus status;
+    private String name;
 
     public double getKD() {
         return status.getKills() / status.getDeaths();
