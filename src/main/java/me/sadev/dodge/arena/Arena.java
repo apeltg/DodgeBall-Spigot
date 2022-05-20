@@ -58,6 +58,9 @@ public class Arena {
         return gameStatus;
     }
 
+    /**
+    * Pega o time do jogador
+     */
     public Location getTeamLocation(ArenaPlayer player) {
         switch (player.time()) {
             case RED -> {
@@ -70,6 +73,9 @@ public class Arena {
         return null; // TODO - Retornar o Spawn
     }
 
+    /**
+     * Teleporta e adiciona o {@link ArenaPlayer} à partida
+     */
     public Arena teleport(ArenaPlayer player) {
         // Chama o evento PlayerJoinArena
         PlayerJoinArenaEvent event = new PlayerJoinArenaEvent(player, this);
@@ -86,6 +92,12 @@ public class Arena {
         return this;
     }
 
+    /**
+     * Modifica o {@link GameStatus} do jogo, chamando o evento.
+     * ATENCÃO: Pode ser cancelado
+     *
+     * @param gameStatus - Novo modo de jogo à ser adicioado
+     */
     public Arena setGameStatus(GameStatus gameStatus) {
         // Chama o evento PlayerJoinArena
         ArenaChangeGameStatusEvent event = new ArenaChangeGameStatusEvent(this, gameStatus, gameStatus());
@@ -98,6 +110,11 @@ public class Arena {
         return this;
     }
 
+    /**
+     * Remove um determinado {@link ArenaPlayer} do partida.
+     *
+     * @param player - Jogador no qual sera removido.
+     */
     public Arena remove(ArenaPlayer player) {
         PlayerQuitArenaEvent event = new PlayerQuitArenaEvent(player, this);
         Bukkit.getPluginManager().callEvent(event);

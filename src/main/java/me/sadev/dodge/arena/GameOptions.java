@@ -9,5 +9,5 @@ public record GameOptions(
         Modo modo,
         Tipo tipo,
         Location redTeamLoc,
-        Location blueTeamLoc) {}
-
+        Location blueTeamLoc
+) {}
