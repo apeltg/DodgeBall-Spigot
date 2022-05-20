@@ -13,9 +13,15 @@ public class ArenaPlayer {
     @Getter
     private final UserAccount userAccount;
 
+    @Getter
+    @Setter
     private Arena arena;
+    @Getter
+    @Setter
     private Status status;
 
+    @Getter
+    @Setter
     private Team time = Team.NENHUM;
 
     public ArenaPlayer(UserAccount userAccount, Arena arena, Player player) {
@@ -23,32 +29,5 @@ public class ArenaPlayer {
         this.arena = arena;
         this.status = new Status(this);
         this.player = player;
-    }
-
-    public Arena arena() {
-        return arena;
-    }
-
-    public ArenaPlayer setArena(Arena arena) {
-        this.arena = arena;
-        return this;
-    }
-
-    public Status status() {
-        return status;
-    }
-
-    public ArenaPlayer setStatus(Status status) {
-        this.status = status;
-        return this;
-    }
-
-    public Team time() {
-        return time;
-    }
-
-    public ArenaPlayer setTime(Team time) {
-        this.time = time;
-        return this;
     }
 }
