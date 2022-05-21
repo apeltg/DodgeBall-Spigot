@@ -11,40 +11,31 @@ import java.sql.SQLException;
 
 public class ConnectionPoolManager {
 
-    private final Dodge plugin;
 
     private HikariDataSource dataSource;
 
-    private String hostname;
-    private String port;
-    private String database;
-    private String username;
-    private String password;
+    private final String hostname;
+    private final String port;
+    private final String database;
+    private final String username;
+    private final String password;
 
-    private int maximumConnections;
+    private final int maximumConnections;
 
     public ConnectionPoolManager(Dodge plugin) {
-        this.plugin = plugin;
-        init();
-        setupPool();
-    }
+        this.hostname = plugin.getConfig().getString("mysql.host");
+        this.port = "3306";
+        this.database = plugin.getConfig().getString("mysql.database");
+        this.username = plugin.getConfig().getString("mysql.username");
+        this.password = plugin.getConfig().getString("mysql.password");
+        this.maximumConnections = 10;
 
-    private void init() {
-        hostname = plugin.getConfig().getString("mysql.host");
-        port = "3306";
-        database = plugin.getConfig().getString("mysql.database");
-        username = plugin.getConfig().getString("mysql.username");
-        password = plugin.getConfig().getString("mysql.password");
-        maximumConnections = 10;
+        setupPool();
     }
 
     private void setupPool() {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(
-                "jdbc:mysql://" + hostname + ":" + port + "/" + database
-        );
-        //config.setDataSourceClassName("org.mariadb.jdbc.MariaDbDataSource");
-        config.setDriverClassName("com.mysql.jdbc.Driver");
+        config.setJdbcUrl("jdbc:mysql://" + hostname + ":" + port + "/" + database);
         config.setUsername(username);
         config.setPassword(password);
 

@@ -24,7 +24,7 @@ public class SQLManager {
                     "userID MEDIUMINT NOT NULL AUTO_INCREMENT, " +
                     "userName varchar(30) NOT NULL, " +
                     "uuid VARCHAR(40) NOT NULL, " +
-                    "createdAt CURRENT_TIMESTAMP NOT NULL, " +
+                    "createdAt TIMESTAMP NOT NULL, " +
                     "UNIQUE (uuid), " +
                     "PRIMARY KEY `id`(`id`))");
             ps.addBatch("CREATE TABLE IF NOT EXISTS userStatus(" +
@@ -39,16 +39,18 @@ public class SQLManager {
 
             ps.executeBatch();
             plugin.getLogger().info("Table criada com sucesso");
-        } catch (SQLException e) { plugin.getLog().error(e); }
+        } catch (SQLException e) { e.printStackTrace(); }
     }
 
     public Connection getConnection() {
         try { return pool.getConnection();
-        } catch (SQLException e) { plugin.getLog().error(e);}
+        } catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
 
     public void onDisable() {
+        try {getConnection().close();
+        } catch (SQLException e) {throw new RuntimeException(e);}
         pool.closePool();
     }
 }

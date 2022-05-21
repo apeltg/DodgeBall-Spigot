@@ -1,4 +1,4 @@
-package me.sadev.dodge.database;
+package me.sadev.dodge.database.user;
 
 import com.google.common.collect.Maps;
 import me.sadev.dodge.Dodge;
@@ -27,7 +27,7 @@ public class UserAccountController {
     public boolean containsUser(UUID uuid) {
         if (!containsUserCache(uuid)) {
             try { return Dodge.getInstance().getUserAccountRepository().loadUserAccount(uuid).whenCompleteAsync((aBoolean, throwable) -> {}).get();
-            } catch (InterruptedException | ExecutionException e) { Dodge.getInstance().getLog().error(e); }
+            } catch (InterruptedException | ExecutionException e) { e.printStackTrace(); }
         }
         return true;
     }
