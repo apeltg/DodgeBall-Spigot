@@ -28,16 +28,19 @@ public final class Dodge extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
 
+        log.info("Iniciando SQLManager.");
         sqlManager = new SQLManager(this);
-        //userAccountController = new UserAccountController();
-        //userAccountRepository = new UserAccountRepository();
+        userAccountController = new UserAccountController();
+        userAccountRepository = new UserAccountRepository();
 
         log.info(String.format(ChatColor.GREEN + "Finalizado! %sms", System.currentTimeMillis() - start));
     }
 
     @Override
     public void onDisable() {
-        log.info("Desligando");
-        // sqlManager.onDisable();
+        long start = System.currentTimeMillis();
+        log.info(ChatColor.RED + "Flw, foi bom jogar com você.");
+        sqlManager.onDisable();
+        log.info(String.format(ChatColor.RED + "Plugin encerrado em %sms", System.currentTimeMillis() - start));
     }
 }
