@@ -34,7 +34,9 @@ public class UserAccountRepository {
                         userAccountController.loadUser(new UserAccount(userUUID, id, createdAt, status, name));
                     } while (resultSet.next());
                 }
-            } catch (SQLException e) { e.printStackTrace(); }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             return check;
         });
     }
@@ -57,7 +59,9 @@ public class UserAccountRepository {
                     }
                 }
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateUserAccount(UserAccount userAccount) {
@@ -68,6 +72,8 @@ public class UserAccountRepository {
             ps.addBatch("UPDATE userStatus SET deaths = " + userAccount.getStatus().getWins() + " WHERE userID=" + userAccount.getUserID());
 
             ps.executeBatch();
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

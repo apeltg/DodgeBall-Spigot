@@ -1,6 +1,8 @@
 package me.sadev.dodge;
 
 import lombok.Getter;
+import me.sadev.dodge.arena.listeners.PlayerJoinEventHandler;
+import me.sadev.dodge.arena.listeners.PlayerQuitEventHandler;
 import me.sadev.dodge.database.user.UserAccountRepository;
 import me.sadev.dodge.database.user.UserAccountController;
 import me.sadev.dodge.database.connection.SQLManager;
@@ -18,7 +20,7 @@ public final class Dodge extends JavaPlugin {
     private UserAccountController userAccountController;
     private UserAccountRepository userAccountRepository;
     @Getter
-    public final Logger log = LoggerFactory.getLogger("Dodge");
+    private final Logger log = LoggerFactory.getLogger("Dodge");
 
     @Override
     public void onEnable() {
@@ -32,6 +34,9 @@ public final class Dodge extends JavaPlugin {
         sqlManager = new SQLManager(this);
         userAccountController = new UserAccountController();
         userAccountRepository = new UserAccountRepository();
+
+        getServer().getPluginManager().registerEvents(new PlayerJoinEventHandler(), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitEventHandler(), this);
 
         log.info(String.format(ChatColor.GREEN + "Finalizado! %sms", System.currentTimeMillis() - start));
     }

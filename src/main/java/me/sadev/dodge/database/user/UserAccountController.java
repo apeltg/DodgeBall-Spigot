@@ -20,15 +20,21 @@ public class UserAccountController {
         userAccounts.put(userAccount.getUuid(), userAccount);
     }
 
+    public UserAccount getUserAccount(UUID uuid) {
+        return userAccounts.get(uuid);
+    }
+
     private boolean containsUserCache(UUID uuid) {
         return userAccounts.containsKey(uuid);
     }
 
     public boolean containsUser(UUID uuid) {
-        if (!containsUserCache(uuid)) {
-            try { return Dodge.getInstance().getUserAccountRepository().loadUserAccount(uuid).whenCompleteAsync((aBoolean, throwable) -> {}).get();
-            } catch (InterruptedException | ExecutionException e) { e.printStackTrace(); }
-        }
-        return true;
+        if (containsUserCache(uuid)) return true;
+
+        try {
+            Dodge.getInstance().getLog().info("Putz, não tava no cache, vou ver se tem aqui no database");
+            return Dodge.getInstance().getUserAccountRepository().loadUserAccount(uuid).whenCompleteAsync((aBoolean, throwable) -> {}).get();
+        } catch (InterruptedException | ExecutionException e) { e.printStackTrace(); }
+        return false;
     }
 }

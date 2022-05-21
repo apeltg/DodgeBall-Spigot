@@ -1,7 +1,6 @@
 package me.sadev.dodge.arena.enums;
 
 public enum GameStatus {
-
     Esperando("esperando"),
     Jogando("jogando"),
     Terminando("terminando");
@@ -12,7 +11,7 @@ public enum GameStatus {
         return name;
     }
 
-    GameStatus(String name) {
+    GameStatus(final String name) {
         this.name = name;
     }
 }
